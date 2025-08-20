@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+        "label": "ESP: Deploy & Reset",
+        "type": "shell",
+        "command": "Get-ChildItem ESP | ForEach-Object { py -m mpremote connect COM7 fs cp $_.FullName :/ } ; py -m mpremote connect COM7 reset",
+        "problemMatcher": []
+    },
+    {
+      "label": "ESP: REPL",
+      "type": "shell",
+      "command": "py -m mpremote connect COM7 repl",
+      "problemMatcher": []
+    },
+    {
+      "label": "ESP: Run (mount, no copy)",
+      "type": "shell",
+      "command": "py -m mpremote connect COM7 mount ./ESP exec \"import main\"",
+      "problemMatcher": []
+    },
+    {
+      "label": "ESP: Soft reset",
+      "type": "shell",
+      "command": "py -m mpremote connect COM7 reset",
+      "problemMatcher": []
+    },
+    {
+      "label": "ESP: List files",
+      "type": "shell",
+      "command": "py -m mpremote connect COM7 fs ls",
+      "problemMatcher": []
+    },
+    {
+      "label": "ESP: Copy current file",
+      "type": "shell",
+      "command": "py -m mpremote connect COM7 fs cp ${file} :/",
+      "problemMatcher": []
+    },
+    {
+      "label": "ESP: Deploy & Monitor",
+      "dependsOn": ["ESP: Deploy & Reset", "ESP: REPL"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    }
+  ]
+}
