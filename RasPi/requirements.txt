@@ -1,0 +1,5 @@
+azure-iot-device
+python-dotenv
+RPi.bme280
+rich
+Flask
