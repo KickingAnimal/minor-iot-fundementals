@@ -30,6 +30,7 @@ wifi_connect()
 try:
     ntptime.settime()
     print("NTP time synced")
+    print("Current time (UTC):", time.localtime())
 except Exception as e:
     print("NTP sync failed:", e)
 

@@ -8,6 +8,12 @@
         "problemMatcher": []
     },
     {
+        "label": "ESP: Deploy Main & Reset",
+        "type": "shell",
+        "command": "py -m mpremote connect COM7 fs cp ESP/main.py :/ ; py -m mpremote connect COM7 reset",
+        "problemMatcher": []
+    },
+    {
       "label": "ESP: REPL",
       "type": "shell",
       "command": "py -m mpremote connect COM7 repl",
@@ -40,6 +46,12 @@
     {
       "label": "ESP: Deploy & Monitor",
       "dependsOn": ["ESP: Deploy & Reset", "ESP: REPL"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "ESP: Deploy Main & Monitor",
+      "dependsOn": ["ESP: Deploy Main & Reset", "ESP: REPL"],
       "dependsOrder": "sequence",
       "problemMatcher": []
     }
