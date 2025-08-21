@@ -129,9 +129,7 @@ def on_message(client, userdata, msg):
         conn.commit()
         conn.close()
         
-        log.info("Stored to DB", {
-            "device_ts": device_ts, "temp_c": temp_c, "hum_pct": hum_pct, "pres_hpa": pres_hpa
-        })
+        log.info("Stored to DB\n")
 
     except (KeyError, ValueError) as e:
         log.error("Bad payload fields:", e)
