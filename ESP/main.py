@@ -1,7 +1,7 @@
 # main.py -- put your code here!
 print("main.py... running")
 
-import json, ubinascii, time, secrets, usocket
+import json, ubinascii, time, secrets, usocket, sys
 from umqtt.robust import MQTTClient
 
 # MQTT broker info (your Raspberry Pi)
@@ -11,6 +11,15 @@ MQTT_TOPIC = b"iot/bme280/esp32"
 
 # LED pin (devboard)
 led = Pin(2, Pin.OUT)
+
+EPOCH_DELTA = 946684800  # seconds between 1970-01-01 and 2000-01-01
+
+def unix_time_now():
+    # MicroPython uses 2000-epoch; CPython uses 1970-epoch
+    if sys.implementation.name == "micropython":
+        return int(time.time() + EPOCH_DELTA)
+    else:
+        return int(time.time())
 
 def mqtt_connect():
     # Resolve MQTT_HOST to IP address
@@ -67,7 +76,7 @@ def main():
        
         try:
             t, p, h = bme.read_compensated_data()
-            current_timestamp = int(time.time())  # get current time
+            current_timestamp = unix_time_now()  # get current time
             payload = {
                 "temp_c": t,
                 "hum_pct": h,
@@ -95,7 +104,7 @@ def main():
             led.value(0)
 
             seq += 1
-            while int(time.time()) < current_timestamp + 10:  # wait 10 seconds before next reading
+            while unix_time_now() < current_timestamp + 10:  # wait 10 seconds before next reading
                 pass
             
         except Exception as e:
